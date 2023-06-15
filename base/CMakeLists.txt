@@ -61,7 +61,6 @@ set(sources
   source/FairSource.cxx
   source/FairUnpack.cxx
 
-  steer/FairAnaSelector.cxx
   steer/FairLinkManager.cxx
   steer/FairRadGridManager.cxx
   steer/FairRadLenManager.cxx
@@ -71,8 +70,6 @@ set(sources
   steer/FairRootManager.cxx
   steer/FairRun.cxx
   steer/FairRunAna.cxx
-  steer/FairRunAnaProof.cxx
-  steer/FairRunOnline.cxx
   steer/FairRunSim.cxx
   steer/FairTask.cxx
   steer/FairTrajFilter.cxx
@@ -120,7 +117,6 @@ target_link_libraries(${target} PUBLIC
   Boost::serialization
   $<$<BOOL:${BUILD_MBS}>:FairRoot::MbsAPI>
 
-  RHTTP # THttpServer
   Core
   EG
   Geom
@@ -130,7 +126,6 @@ target_link_libraries(${target} PUBLIC
   Matrix
   Net # TSocket
   Physics
-  Proof
   RIO
   Tree
   ${VMCLIB}

@@ -281,15 +281,8 @@ If(Geant3_FOUND)
  add_subdirectory(trackbase)
 EndIf ()
 
-execute_process(COMMAND ${ROOT_CONFIG_EXECUTABLE} --has-opengl OUTPUT_VARIABLE
-    ROOT_HAS_OPENGL_VAR)
-if(${ROOT_HAS_OPENGL_VAR} MATCHES "yes")
-  add_subdirectory(eventdisplay)
-  Set(ROOT_HAS_OPENGL TRUE)
-else()
-  message(STATUS "eventdisplay will not be built, because ROOT has no opengl support.")
-  Set(ROOT_HAS_OPENGL FALSE)
-endif()
+message(STATUS "eventdisplay will not be built.")
+Set(ROOT_HAS_OPENGL FALSE)
 
 if(BUILD_MBS)
   add_subdirectory(MbsAPI)
@@ -298,12 +291,6 @@ add_subdirectory(datamatch)
 
 add_subdirectory(templates)
 
-If (FairMQ_FOUND AND Boost_FOUND)
-  add_subdirectory(base/MQ)
-  add_subdirectory(parmq)
-Else ()
-  Message(STATUS "base/MQ and parmq will not be built, because FairMQ and/or Boost was not found.")
-EndIf ()
 
 Option(BUILD_DOXYGEN "Build Doxygen" OFF)
 if(BUILD_DOXYGEN)
