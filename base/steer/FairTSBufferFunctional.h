@@ -32,7 +32,7 @@ class TTree;
  * The method TimeOut is used to break the processing if for example always the same data is requested.
  */
 
-class BinaryFunctor : public std::binary_function<FairTimeStamp*, double, bool>
+class BinaryFunctor
 {
   public:
     virtual bool operator()(FairTimeStamp* a, double b) { return Call(a, b); };
