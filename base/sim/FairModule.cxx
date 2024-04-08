@@ -144,7 +144,8 @@ FairModule::FairModule()
     , flGeoPar(nullptr)
     , fGeoSaved(kFALSE)
     , fMC(nullptr)
-{}
+{
+}
 
 FairModule& FairModule::operator=(const FairModule& rhs)
 {
@@ -249,7 +250,7 @@ void FairModule::ProcessNodes(TList* aList)
       Call templated function FairModule::ConstructASCIIGeometry()\
       from ConstructGeometry() of your detector class. Aborting...";
     }
-
+    LOGP(info, "Processing nodes is called here with a list of {} entries <><><>", aList->GetSize());
     if (!svList) {
         svList = new TRefArray();
     }

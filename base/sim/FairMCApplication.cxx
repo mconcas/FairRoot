@@ -664,7 +664,7 @@ void FairMCApplication::Stepping()
 
     // Check if the volume with id is in the volume multimap.
     // If it is not in the map the volume is not a sensitive volume
-    // and we do not call nay of our ProcessHits functions.
+    // and we do not call any of our ProcessHits functions.
 
     // If the volume is in the multimap, check in second step if the current
     // copy is alredy inside the multimap.
@@ -678,15 +678,24 @@ void FairMCApplication::Stepping()
     fDisDet = 0;
     Int_t fCopyNo = 0;
     fVolIter = fVolMap.find(id);
-
+    LOGP(info, "Doing stepping for volume {}, copy {} volmap size is {}", id, copyNo, fVolMap.size());
     if (fVolIter != fVolMap.end()) {
-
+        LOGP(info, "Volume {} found in map with id", fVolIter->second->getRealName(), id);
         // Call Process hits for FairVolume with this id, copyNo
         do {
             fDisVol = fVolIter->second;
             fCopyNo = fDisVol->getCopyNo();
+            LOGP(info,
+                 "id {}, fVolIter->first {}, fVolIter->second {}, fVolMap.upper_bound(id)->first {} "
+                 "fVolMap.upper_bound(id)->second {}",
+                 id,
+                 fVolIter->first,
+                 (void*)fVolIter->second,
+                 fVolMap.upper_bound(id)->first,
+                 (void*)(fVolMap.upper_bound(id)->second));
             if (copyNo == fCopyNo) {
                 fDisDet = fDisVol->GetDetector();
+                LOGP(info, "fDisDet {} is not null, name {}", (void*)fDisDet, (void*)fDisVol->GetDetector());
                 if (fDisDet) {
                     fDisDet->ProcessHits(fDisVol);
                 }
@@ -703,7 +712,8 @@ void FairMCApplication::Stepping()
         // the link to the detector.
         // Seems that this never happens (?)
         if (!InMap) {
-            // cout << "Volume not in map; fDisVol ? " << fDisVol << endl
+            LOG(info) << "Volume not in map; fDisVol is " << fDisVol->getRealName()
+                      << " fMC->CurrentVolName() is: " << fMC->CurrentVolName();
             FairVolume* fNewV = new FairVolume(fMC->CurrentVolName(), id);
             fNewV->setMCid(id);
             fNewV->setModId(fDisVol->getModId());
@@ -1101,7 +1111,7 @@ void FairMCApplication::InitGeometry()
     if (fSenVolumes) {
         fNoSenVolumes = fSenVolumes->GetEntries();
     }
-
+    LOGP(info, "number of sensitive volumes found at this point: {}", fNoSenVolumes);
     // Fill sensitive volumes in fVolMap
     for (Int_t i = 0; i < fNoSenVolumes; i++) {
 
